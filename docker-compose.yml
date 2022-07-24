@@ -1,0 +1,35 @@
+version: '3'
+services:
+  db:
+    restart: always
+    build: ./mysql/
+    command: mysqld --character-set-server=utf8 --collation-server=utf8_unicode_ci
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpass
+      MYSQL_USER: localuser
+      MYSQL_PASSWORD: localpass
+      MYSQL_DATABASE: localdb
+    volumes:
+      - ./mysql/initdb.d:/docker-entrypoint-initdb.d #初期処理のフォルダ。初回起動のみでおｋ
+      - ./mysql/db:/var/lib/mysql #ここにデータ永続化するためのファイルが入る。
+    networks:
+      - myapp
+
+  app:
+    build: .
+    ports:
+    - "80:5050"
+    # volumes:
+
+    networks:
+      - myapp
+
+volumes:
+  localdb:
+    external: false
+
+networks:
+  myapp:
+    external: true
