@@ -68,7 +68,7 @@ func (r *mutationResolver) UpdateTodo(ctx context.Context, input ModifyTodo) (st
 	err := database.NewTodoDao(r.DB).UpdateOne(&database.Todo{
 		ID:     input.ID,
 		Text:   input.Text,
-		Done:   false,
+		Done:   input.Done,
 		UserID: input.UserID,
 	})
 	if err != nil {
@@ -80,14 +80,13 @@ func (r *mutationResolver) UpdateTodo(ctx context.Context, input ModifyTodo) (st
 func (r *mutationResolver) DeleteTodo(ctx context.Context, input DeleteTodo) (string, error) {
 	log.Printf("[mutationResolver.CreateTodo] input: %#v", input)
 	err := database.NewTodoDao(r.DB).DeleteOne(&database.Todo{
-		ID:     input.ID,
+		ID: input.ID,
 	})
 	if err != nil {
 		return "", err
 	}
 	return input.ID, nil
 }
-
 
 type queryResolver struct{ *Resolver }
 
