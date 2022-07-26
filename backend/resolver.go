@@ -63,6 +63,32 @@ func (r *mutationResolver) CreateUser(ctx context.Context, input NewUser) (strin
 	return id, nil
 }
 
+func (r *mutationResolver) UpdateTodo(ctx context.Context, input ModifyTodo) (string, error) {
+	log.Printf("[mutationResolver.CreateTodo] input: %#v", input)
+	err := database.NewTodoDao(r.DB).UpdateOne(&database.Todo{
+		ID:     input.ID,
+		Text:   input.Text,
+		Done:   false,
+		UserID: input.UserID,
+	})
+	if err != nil {
+		return "", err
+	}
+	return input.ID, nil
+}
+
+func (r *mutationResolver) DeleteTodo(ctx context.Context, input DeleteTodo) (string, error) {
+	log.Printf("[mutationResolver.CreateTodo] input: %#v", input)
+	err := database.NewTodoDao(r.DB).DeleteOne(&database.Todo{
+		ID:     input.ID,
+	})
+	if err != nil {
+		return "", err
+	}
+	return input.ID, nil
+}
+
+
 type queryResolver struct{ *Resolver }
 
 func (r *queryResolver) Todos(ctx context.Context) ([]*models.Todo, error) {

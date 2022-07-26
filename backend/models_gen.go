@@ -10,3 +10,14 @@ type NewTodo struct {
 type NewUser struct {
 	Name string `json:"name"`
 }
+
+type DeleteTodo struct {
+	ID string `json:"id"`
+}
+
+type ModifyTodo struct {
+	Text   string `json:"text"`
+	Done   bool   `json:"done"`
+	UserID string `json:"userId"`
+	ID     string `json:"id"`
+}
