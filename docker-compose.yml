@@ -1,5 +1,14 @@
 version: '3'
 services:
+
+  app:
+    build: .
+    ports:
+    - "80:5050"
+    # volumes:
+
+    networks:
+      - myapp
   db:
     restart: always
     build: ./mysql/
@@ -14,15 +23,6 @@ services:
     volumes:
       - ./mysql/initdb.d:/docker-entrypoint-initdb.d #初期処理のフォルダ。初回起動のみでおｋ
       - ./mysql/db:/var/lib/mysql #ここにデータ永続化するためのファイルが入る。
-    networks:
-      - myapp
-
-  app:
-    build: .
-    ports:
-    - "80:5050"
-    # volumes:
-
     networks:
       - myapp
 

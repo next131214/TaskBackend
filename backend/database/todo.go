@@ -1,6 +1,8 @@
 package database
 
 import (
+	"log"
+	"strconv"
 	"github.com/jinzhu/gorm"
 )
 
@@ -17,6 +19,8 @@ func (u *Todo) TableName() string {
 
 type TodoDao interface {
 	InsertOne(u *Todo) error
+	UpdateOne(u *Todo) error
+	DeleteOne(u *Todo) error
 	FindAll() ([]*Todo, error)
 	FindByUserID(userID string) ([]*Todo, error)
 	FindOne(id string) (*Todo, error)
@@ -29,7 +33,26 @@ type todoDao struct {
 func NewTodoDao(db *gorm.DB) TodoDao {
 	return &todoDao{db: db}
 }
-
+func (d *todoDao) DeleteOne(u *Todo) error {
+	var sql string = "DELETE FROM todo WHERE id = '" + u.ID + "'"
+	log.Printf(sql)
+	log.Printf("%s\n", u)
+	res := d.db.Exec(sql)
+	if err := res.Error; err != nil {
+		return err
+	}
+	return nil
+}
+func (d *todoDao) UpdateOne(u *Todo) error {
+	var sql string = "UPDATE todo SET text='" + u.Text + "',done = " + strconv.FormatBool(u.Done) + " WHERE id = '" + u.ID + "'"
+	log.Printf(sql)
+	log.Printf("%s\n", u)
+	res := d.db.Exec(sql)
+	if err := res.Error; err != nil {
+		return err
+	}
+	return nil
+}
 func (d *todoDao) InsertOne(u *Todo) error {
 	res := d.db.Create(u)
 	if err := res.Error; err != nil {

@@ -32,7 +32,20 @@ input NewUser {
   name: String!
 }
 
+input modifyTodo {
+  text: String!
+  done: Boolean!
+  userId: String!
+  id: String!
+}
+
+input deleteTodo {
+  id: String!
+}
+
 type Mutation {
   createTodo(input: NewTodo!): ID!
   createUser(input: NewUser!): ID!
+  updateTodo(input: modifyTodo!): ID!
+  deleteTodo(input: deleteTodo!): ID!
 }
