@@ -3,10 +3,11 @@ services:
 
   app:
     build: .
+    tty: true
     ports:
     - "80:5050"
-    # volumes:
-
+    volumes:
+    - ./backend:/go-app
     networks:
       - myapp
   db:

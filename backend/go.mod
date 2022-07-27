@@ -9,3 +9,5 @@ require (
 	github.com/jinzhu/gorm v1.9.11
 	github.com/vektah/gqlparser v1.1.2
 )
+
+replace gopkg.in/urfave/cli.v2 => github.com/urfave/cli/v2 v2.1.1

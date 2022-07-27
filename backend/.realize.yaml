@@ -1,0 +1,24 @@
+settings:
+  legacy:
+    force: false
+    interval: 0s
+schema:
+  - name: go-app
+    path: .
+    commands:
+      install:
+        status: true
+        method: go build -o /go/bin/go-app server/server.go
+      run:
+        status: true
+        method: /go/bin/go-app
+    watcher:
+      extensions:
+        - go
+      paths:
+        - /
+      ignore:
+        paths:
+          - .git
+          - .realize
+          - vendor
